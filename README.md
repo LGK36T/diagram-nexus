@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Diagram Nexus
 
-## Getting Started
+> **Estudio Visual de Arquitectura y Documentación Técnica (POC)**  
+> Construido con **Next.js 15+ (App Router)**, **React 19**, **TypeScript 5+**, **Tldraw 5+**, **Zustand 5**, **Tailwind CSS** y **Axios**.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🎯 ¿Qué problema resuelve?
+
+Tener solo imágenes PNG en un repositorio carece de contexto técnico y pierde la capacidad de edición futura. **Diagram Nexus** unifica:
+1. **Lienzo Infinito Interactivo (Tldraw):** Crea diagramas vectoriales, cajas, relaciones, flujos y notas visuales.
+2. **Documentación Markdown (ADR):** Redacta el contexto, decisiones de arquitectura y especificaciones junto al diagrama en una vista dividida (*Split-View*).
+3. **Persistencia Dual Automática:** Guarda el estado editable (snapshot JSON de Tldraw) y las notas Markdown.
+4. **Catálogo y Referencias:** Filtra por etiquetas (`#auth`, `#backend`, `#architecture`), busca en texto y exporta snippets listos para incrustar en `README.md` o Pull Requests.
+
+---
+
+## 🏗️ Arquitectura por Capas (`frontend_manager`)
+
+El proyecto sigue estrictamente el flujo unidireccional y las reglas de diseño establecidas en las guías técnicas:
+
+```
+src/
+├── app/
+│   ├── layout.tsx                     # Root layout con metadatos y tokens
+│   └── page.tsx                       # Página delgada (Server Component)
+├── components/
+│   ├── functional/
+│   │   ├── DiagramStudio.tsx          # Orquestador functional ('use client', 4 estados)
+│   │   ├── DiagramTldraw.tsx          # Lienzo dinámico Tldraw (sin SSR) con autosave debounced
+│   │   ├── DiagramNotes.tsx           # Editor y vista previa Markdown en tiempo real
+│   │   └── DiagramExportModal.tsx     # Generador de referencias y exportación
+│   ├── layout/
+│   │   ├── Header.tsx                 # Barra superior con selector de vistas y estados
+│   │   └── Sidebar.tsx                # Catálogo de diagramas con búsqueda y tags
+│   └── ui/                            # Componentes desacoplados con tokens semánticos
+│       ├── Button.tsx
+│       ├── Badge.tsx
+│       ├── InputText.tsx
+│       ├── Spinner.tsx
+│       ├── ErrorMessage.tsx
+│       └── Modal.tsx
+├── store/
+│   ├── interfaces/                    # Contratos de datos (IDiagram, IDataResponse)
+│   ├── services/                      # diagramService con persistencia tipada
+│   ├── zustand/                       # diagramStore (ciclo onLoading, onError, error)
+│   └── hooks/                         # useDiagram (selectores atómicos desacoplados)
+├── styles/
+│   └── globals.css                    # Design tokens semánticos HSL
+└── utils/
+    ├── api.ts                         # Cliente Axios configurado
+    ├── config.ts                      # Configuración centralizada
+    └── cn.ts                          # Utilidad de combinación de clases Tailwind
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Puesta en Marcha
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Requisitos
+- Node.js 20+ (probado en Node.js 26)
+- Yarn 1.22+
 
-## Learn More
+### Comandos
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Instalar dependencias
+yarn
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Iniciar servidor de desarrollo con Turbopack
+yarn dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Chequeo estricto de tipos TypeScript
+npx tsc --noEmit
 
-## Deploy on Vercel
+# Compilación de producción
+yarn build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 💡 Próximos Pasos (Evolución Full-Stack)
+
+1. **Backend Express 5:** Conectar las llamadas de `diagram.service.ts` al API Gateway siguiendo las plantillas de `skills/backend_manager`.
+2. **PostgreSQL 17:** Persistir diagramas y sus esquemas en stored procedures `app.diagram_*` definidos según `skills/database_manager`.
+3. **Exportación SVG en Servidor:** Generar renders vectoriales estáticos mediante un worker para previsualizaciones ultrarrápidas en repositorios Git.
