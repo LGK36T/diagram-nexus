@@ -11,68 +11,27 @@ const STORAGE_KEY = 'diagram_nexus_storage_v1'
 const INITIAL_DIAGRAMS: IDiagram[] = [
   {
     id: 'f87a8b30-9742-4f9e-a89a-0824b4231b11',
-    title: 'Arquitectura Unidireccional & Flujo de Capas',
-    slug: 'arquitectura-unidireccional-flujo-capas',
-    description: 'Flujo de datos y separación de responsabilidades para el frontend y backend.',
-    status: 'approved',
-    tags: ['frontend', 'architecture', 'nextjs', 'zustand'],
-    notes: `# Arquitectura Unidireccional & Flujo de Capas
+    title: 'Arquitectura del Sistema',
+    slug: 'arquitectura-del-sistema',
+    description: 'Vista general de componentes, capas y persistencia.',
+    status: 'draft',
+    tags: ['arquitectura', 'general'],
+    notes: `# Arquitectura del Sistema
 
-## 1. Contexto y Propósito
-Este diagrama define el flujo estricto de datos en la aplicación frontend, garantizando mantenibilidad, trazabilidad y testing aislado.
+Notas técnicas y decisiones de diseño asociadas a este diagrama.
 
-## 2. Flujo de Datos por Capas
-\`\`\`
-Page (App Router)
-  └── Functional Component ('use client')
-        └── Custom Hook (useDiagram)
-              └── Zustand Store (diagram.store)
-                    └── Service (diagram.service)
-                          └── Storage / API Gateway
-\`\`\`
+## Componentes
+- Frontend: Next.js y Tldraw
+- Estado: Zustand
+- Documentación: Markdown
 
-## 3. Decisiones de Diseño (ADR)
-* **ADR-001 - Acceso a Estado:** Los componentes de interfaz consumen únicamente Hooks con selectores atómicos (\`s => s.field\`), previniendo re-renderizados innecesarios.
-* **ADR-002 - Lienzo Interactivo:** Integración de Tldraw desacoplada mediante importación dinámica del lado del cliente (\`ssr: false\`).
-* **ADR-003 - Documentación Viva:** El editor de Markdown sincroniza notas técnicas con el identificador del diagrama.
-
-## 4. Estado de los Componentes
-Cada componente maneja 4 estados de forma obligatoria:
-1. **Inicial**
-2. **Carga** (\`onLoading\`)
-3. **Error con reintento** (\`onError\`)
-4. **Éxito / Datos**
+## Decisiones Técnicas
+- Editor de dibujo desacoplado del ciclo de renderizado principal.
+- Persistencia reactiva local con soporte para exportación.
 `,
     canvasData: null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-  },
-  {
-    id: 'b2849e71-460d-4569-8f81-dc0839e94322',
-    title: 'Flujo de Autenticación JWT y Refresh Tokens',
-    slug: 'autenticacion-jwt-refresh-tokens',
-    description: 'Ciclo de vida, rotación de credenciales y reintento en API Gateway.',
-    status: 'review',
-    tags: ['auth', 'security', 'backend', 'postgresql'],
-    notes: `# Autenticación y Rotación de Tokens
-
-## 1. Resumen
-Estrategia de seguridad basada en doble token para aplicaciones web con sesión persistente.
-
-## 2. Parámetros Técnicos
-* **Access Token:** Vida útil de 15 minutos en memoria o cookie segura.
-* **Refresh Token:** Almacenado en tabla relacional con bandera de revocación (\`is_revoked\`).
-* **Rotación:** Cada consumo de un refresh token genera un nuevo par e invalida el anterior.
-
-## 3. Diagrama de Secuencia
-1. Cliente envía credenciales a \`/api/v1/auth/login\`.
-2. Servidor valida password con hash seguro y emite el par de tokens.
-3. El cliente adjunta el Bearer token en cada solicitud.
-4. Al recibir \`401 Unauthorized\`, el interceptor solicita renovación transparente.
-`,
-    canvasData: null,
-    createdAt: new Date(Date.now() - 86400000).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000).toISOString(),
   },
 ]
 
@@ -140,9 +99,9 @@ export const diagramService = {
       title: payload.title,
       slug: slug || `diagram-${Date.now()}`,
       description: payload.description || '',
-      notes: payload.notes || `# ${payload.title}\n\nEscribe aquí la explicación técnica del diagrama...`,
+      notes: payload.notes || `# ${payload.title}\n\nDocumentación del diagrama...\n`,
       status: payload.status || 'draft',
-      tags: payload.tags || ['arquitectura'],
+      tags: payload.tags || ['general'],
       canvasData: payload.canvasData || null,
       createdAt: now,
       updatedAt: now,

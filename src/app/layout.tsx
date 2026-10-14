@@ -13,9 +13,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Diagram Nexus | Visual Architecture & Technical Notes',
-  description:
-    'Estudio de diseño y documentación arquitectónica que une diagramas interactivos y notas técnicas Markdown.',
+  title: 'Diagram Nexus',
+  description: 'Herramienta de diagramas y notas técnicas.',
 }
 
 export default function RootLayout({

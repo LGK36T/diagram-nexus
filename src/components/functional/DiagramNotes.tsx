@@ -6,7 +6,7 @@ import {
   FileText,
   Eye,
   Columns,
-  Sparkles,
+  Plus,
   Clock,
   CheckCircle,
 } from 'lucide-react'
@@ -100,19 +100,19 @@ export const DiagramNotes: React.FC<DiagramNotesProps> = ({ diagramId }) => {
   }
 
   const insertADRTemplate = () => {
-    const adrSnippet = `\n\n## 📋 ADR-${Math.floor(100 + Math.random() * 900)}: [Título de la Decisión Técnica]
-* **Estado:** Propuesto / Aceptado
-* **Fecha:** ${new Date().toLocaleDateString('es-ES')}
+    const adrSnippet = `\n\n## ADR: [Título de la decisión]
+- Estado: Propuesto
+- Fecha: ${new Date().toISOString().slice(0, 10)}
 
-### Contexto y Problema
-¿Cuál es el problema arquitectónico que necesitamos resolver y por qué es relevante para el sistema?
+### Contexto
+[Descripción del contexto o problema a resolver]
 
 ### Decisión
-Elegimos implementar [Solución X] en lugar de [Alternativa Y].
+[Decisión técnica adoptada]
 
 ### Consecuencias
-* **Positivas:** Mayor desacoplamiento, facilidad de testeo y escalabilidad.
-* **Trade-offs / Negativas:** Mayor latencia inicial o complejidad de configuración.
+- Positivas: [Beneficios]
+- Negativas: [Trade-offs o limitaciones]
 `
     const updatedNotes = localNotes + adrSnippet
     setLocalNotes(updatedNotes)
@@ -251,10 +251,10 @@ Elegimos implementar [Solución X] en lugar de [Alternativa Y].
         <button
           onClick={insertADRTemplate}
           className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs text-primary font-medium hover:bg-primary/10 cursor-pointer transition-colors"
-          title="Insertar plantilla de Architecture Decision Record"
+          title="Insertar plantilla ADR"
         >
-          <Sparkles className="w-3.5 h-3.5" />
-          + Plantilla ADR
+          <Plus className="w-3.5 h-3.5" />
+          Plantilla ADR
         </button>
       </div>
 

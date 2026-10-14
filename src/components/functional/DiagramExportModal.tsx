@@ -35,11 +35,11 @@ ${diagram.notes}
   }
 
   const getReadmeSnippet = () => {
-    return `### 📐 Arquitectura: ${diagram.title}
-* **Estado:** \`${diagram.status.toUpperCase()}\`
-* **Etiquetas:** ${diagram.tags.map((t) => `\`#${t}\``).join(' ')}
+    return `### ${diagram.title}
+- **Estado:** \`${diagram.status.toUpperCase()}\`
+- **Etiquetas:** ${diagram.tags.map((t) => `\`#${t}\``).join(' ')}
 
-> ${diagram.description || 'Consulta el diseño técnico y diagrama en Diagram Nexus.'}
+${diagram.description ? `> ${diagram.description}` : ''}
 `
   }
 

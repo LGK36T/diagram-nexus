@@ -27,18 +27,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewModal }) => {
   return (
     <>
       <header className="h-14 border-b border-border bg-background px-4 flex items-center justify-between shrink-0 select-none">
-        {/* Left: Branding & Active Diagram */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold">
               <Layers className="h-4 w-4" />
             </div>
-            <div>
-              <span className="font-bold text-sm tracking-tight text-foreground">Diagram Nexus</span>
-              <span className="ml-1.5 text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-primary/10 text-primary">
-                POC
-              </span>
-            </div>
+            <span className="font-bold text-sm tracking-tight text-foreground">Diagram Nexus</span>
           </div>
 
           <div className="h-4 w-px bg-border hidden sm:block" />

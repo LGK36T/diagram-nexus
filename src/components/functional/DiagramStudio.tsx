@@ -82,15 +82,11 @@ export const DiagramStudio: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-background">
-      {/* 1. Header Global */}
       <Header onOpenNewModal={() => setIsNewModalOpen(true)} />
 
-      {/* 2. Workspace Body */}
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Sidebar */}
         <Sidebar isOpen={isSidebarOpen} />
 
-        {/* Sidebar Toggle Button */}
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className="absolute z-20 top-2 left-2 p-1.5 rounded-lg bg-background/80 backdrop-blur-xs border border-border shadow-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
@@ -103,24 +99,20 @@ export const DiagramStudio: React.FC = () => {
           )}
         </button>
 
-        {/* Main Content Area: Managing 4 states */}
         <main className="flex-1 flex flex-col overflow-hidden relative">
-          {/* State 1: Loading */}
           {onLoading && (
             <div className="flex flex-col items-center justify-center h-full">
               <Spinner size="lg" />
-              <p className="text-sm text-muted-foreground mt-3">Cargando catálogo...</p>
+              <p className="text-sm text-muted-foreground mt-3">Cargando...</p>
             </div>
           )}
 
-          {/* State 2: Error with Retry */}
           {onError && !onLoading && (
             <div className="p-8 max-w-lg mx-auto my-auto w-full">
               <ErrorMessage message={error} onRetry={diagramGetAll} />
             </div>
           )}
 
-          {/* State 3: Empty State */}
           {!onLoading && !onError && !selectedDiagram && (
             <div className="flex flex-col items-center justify-center h-full p-8 text-center">
               <div className="p-4 rounded-full bg-secondary text-primary mb-4">
@@ -128,20 +120,19 @@ export const DiagramStudio: React.FC = () => {
               </div>
               <h3 className="text-base font-semibold text-foreground">No hay diagramas disponibles</h3>
               <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                Crea tu primer diseño de arquitectura para comenzar a dibujar y documentar.
+                Crea un diagrama para comenzar a editar.
               </p>
               <Button
                 variant="primary"
                 size="sm"
                 icon={<Plus className="w-4 h-4" />}
-                label="Crear Primer Diagrama"
+                label="Nuevo Diagrama"
                 className="mt-4"
                 onClick={() => setIsNewModalOpen(true)}
               />
             </div>
           )}
 
-          {/* State 4: Success / Workspace Canvas & Notes */}
           {!onLoading && !onError && selectedDiagram && (
             <div className="flex-1 flex overflow-hidden">
               {/* Canvas View */}
@@ -173,11 +164,10 @@ export const DiagramStudio: React.FC = () => {
         </main>
       </div>
 
-      {/* Modal: Nuevo Diagrama */}
       <Modal
         isOpen={isNewModalOpen}
         onClose={() => setIsNewModalOpen(false)}
-        title="Crear Nuevo Diagrama de Arquitectura"
+        title="Nuevo Diagrama"
       >
         <form onSubmit={handleCreateDiagram} className="space-y-4">
           <InputText
